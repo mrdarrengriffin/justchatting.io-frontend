@@ -28,67 +28,28 @@
                 </div>
             </div>
             <div class="sidebar__nav-group">
-                <div class="sidebar__nav-group__title">Archive</div>
+                <div class="sidebar__nav-group__title">Analysis</div>
                 <div class="sidebar__nav-group__nav">
                     <RouterLink to="/" class="nav-item">
-                        <i class="bi bi-camera-video nav-item__icon"></i>
-                        <span class="nav-item__label">VODs</span>
+                        <i class="bi bi-soundwave nav-item__icon"></i>
+                        <span class="nav-item__label">Chat Interaction</span>
                     </RouterLink>
                     <RouterLink to="/about" class="nav-item">
-                        <i class="bi bi-chat-right-text nav-item__icon"></i>
-                        <span class="nav-item__label">Chat</span>
+                        <i class="bi bi-graph-up nav-item__icon"></i>
+                        <span class="nav-item__label">Overall Stats</span>
                     </RouterLink>
                 </div>
             </div>
             <div class="sidebar__nav-group">
-                <div class="sidebar__nav-group__title">Archive</div>
+                <div class="sidebar__nav-group__title">Creator Tools</div>
                 <div class="sidebar__nav-group__nav">
                     <RouterLink to="/" class="nav-item">
-                        <i class="bi bi-camera-video nav-item__icon"></i>
-                        <span class="nav-item__label">VODs</span>
+                        <i class="bi bi-funnel nav-item__icon"></i>
+                        <span class="nav-item__label">Chat Pre-Render Filter</span>
                     </RouterLink>
                     <RouterLink to="/about" class="nav-item">
-                        <i class="bi bi-chat-right-text nav-item__icon"></i>
-                        <span class="nav-item__label">Chat</span>
-                    </RouterLink>
-                </div>
-            </div>
-            <div class="sidebar__nav-group">
-                <div class="sidebar__nav-group__title">Archive</div>
-                <div class="sidebar__nav-group__nav">
-                    <RouterLink to="/" class="nav-item">
-                        <i class="bi bi-camera-video nav-item__icon"></i>
-                        <span class="nav-item__label">VODs</span>
-                    </RouterLink>
-                    <RouterLink to="/about" class="nav-item">
-                        <i class="bi bi-chat-right-text nav-item__icon"></i>
-                        <span class="nav-item__label">Chat</span>
-                    </RouterLink>
-                </div>
-            </div>
-            <div class="sidebar__nav-group">
-                <div class="sidebar__nav-group__title">Archive</div>
-                <div class="sidebar__nav-group__nav">
-                    <RouterLink to="/" class="nav-item">
-                        <i class="bi bi-camera-video nav-item__icon"></i>
-                        <span class="nav-item__label">VODs</span>
-                    </RouterLink>
-                    <RouterLink to="/about" class="nav-item">
-                        <i class="bi bi-chat-right-text nav-item__icon"></i>
-                        <span class="nav-item__label">Chat</span>
-                    </RouterLink>
-                </div>
-            </div>
-            <div class="sidebar__nav-group">
-                <div class="sidebar__nav-group__title">Archive</div>
-                <div class="sidebar__nav-group__nav">
-                    <RouterLink to="/" class="nav-item">
-                        <i class="bi bi-camera-video nav-item__icon"></i>
-                        <span class="nav-item__label">VODs</span>
-                    </RouterLink>
-                    <RouterLink to="/about" class="nav-item">
-                        <i class="bi bi-chat-right-text nav-item__icon"></i>
-                        <span class="nav-item__label">Chat</span>
+                        <i class="bi bi-save nav-item__icon"></i>
+                        <span class="nav-item__label">VOD Chat Downloader</span>
                     </RouterLink>
                 </div>
             </div>
@@ -206,6 +167,7 @@ export default {
             .nav-item {
                 padding: .75rem 1rem;
                 white-space: nowrap;
+                font-size: 14px;
                 transition: background-color .25s ease-in-out;
                 
                 &:hover {
@@ -217,6 +179,7 @@ export default {
                 }
 
                 &__icon {
+                    font-size: 16px;
                     display: inline-block;
                     margin-right: 1rem;
                     text-align: center;
