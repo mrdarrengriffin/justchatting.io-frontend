@@ -6,6 +6,20 @@ import Sidebar from "./components/Sidebar.vue";
 
 <template>
 	<Header />
-	<Sidebar />
-	<RouterView />
+	<div class="main">
+		<Sidebar />
+		<div class="router-wrapper">
+			<RouterView />
+		</div>
+	</div>
 </template>
+<style lang="scss" scoped>
+	.main {
+		display: flex;
+		
+		.router-wrapper{
+			padding: 1rem;
+			width: 100%;
+		}
+	}
+</style>
