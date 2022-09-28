@@ -89,6 +89,7 @@ export default {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
     height: calc(100vh - 56px);
     padding: 2rem 0 1rem 0;
     transition: width .5s, padding .5s;
@@ -170,7 +171,7 @@ export default {
                 font-size: 14px;
                 transition: background-color .25s ease-in-out;
                 
-                &:hover {
+                &:hover, &.router-link-active {
                     background-color: rgba(0, 0, 0, 0.05);
                 }
                 
