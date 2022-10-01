@@ -14,9 +14,7 @@
         <div class="header__nav header__nav--auth">
             <RouterLink to="/logout" v-if="token" @click="logout()">Logout</RouterLink>
             <RouterLink to="/login" v-if="!token">Login</RouterLink>
-            <RouterLink to="/register" v-if="!token">Register</RouterLink>
-            
-    
+            <RouterLink to="/register" v-if="!token">Register</RouterLink>    
         </div>
     </div>
 </template>
