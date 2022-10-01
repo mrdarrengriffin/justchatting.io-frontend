@@ -34,7 +34,7 @@ const router = createRouter({
 
 router.afterEach(async (to) => {
   const alertStore = useAlertStore();
-  //alertStore.clear();
+  alertStore.clear();
 })
 
 export default router;
