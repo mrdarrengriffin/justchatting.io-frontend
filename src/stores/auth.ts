@@ -29,8 +29,8 @@ export const useAuthStore = defineStore({
         .then((response) => {
           localStorage.setItem("authToken", response.data.token);
           this.token = response.data.token;
-          useAlertStore().success("Login successful!");
           router.push("/");
+          useAlertStore().success("Login successful!");
         })
         .catch((error) => {
           var data = error.response.data;
