@@ -1,29 +1,50 @@
 <template>
     <div class="header">
         <div class="header__brand">JustChatting.io</div>
-        <div class="header__nav">
-            <RouterLink to="/">Home</RouterLink>
-            <RouterLink to="/about">About</RouterLink>
-        </div>
         <div class="header__toggles">
             <div class="header__toggle" @click="toggleDarkMode()">
                 <i class="bi bi-moon-stars" v-if="darkMode"></i>
                 <i class="bi bi-sun" v-if="!darkMode"></i>
             </div>
         </div>
+        <div class="header__nav">
+            <RouterLink to="/">Home</RouterLink>
+            <RouterLink to="/about">About</RouterLink>
+        </div>
+        <div class="header__nav header__nav--auth">
+            <RouterLink to="/logout" v-if="token" @click="logout()">Logout</RouterLink>
+            <RouterLink to="/login" v-if="!token">Login</RouterLink>
+            <RouterLink to="/register" v-if="!token">Register</RouterLink>
+            
+    
+        </div>
     </div>
 </template>
 
 <script>
+    import { useAuthStore } from '@/stores/auth';
+    import { storeToRefs } from 'pinia';
 export default {
     data(){
         return { 
-            darkMode: false
+            darkMode: false,
+        }
+    },
+    setup(){
+        const authStore = useAuthStore();
+        const { token, getUserInfo } = storeToRefs(authStore);
+        return {
+            token,
+            getUserInfo
         }
     },
     methods: {
         toggleDarkMode() {
             this.darkMode = !this.darkMode
+        },
+        logout(){
+            const authStore = useAuthStore();
+            authStore.logout();
         }
     }
 }
