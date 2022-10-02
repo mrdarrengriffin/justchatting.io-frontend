@@ -1,19 +1,19 @@
 <template>
-    <div class="login card">
+    <div class="login card" :class="{'loading': loading}">
         <h1>Login</h1>
         <Alert />
         <div class="form-inputs">
             <div class="form-input">
                 <div class="form-input__label">Email</div>
                 <input class="form-input__control" type="text" name="email" v-model="email">
-                <div v-if="errors?.email" class="form-input__validation form-input__validation--error">{{ errors?.email
+                <div v-if="validation?.email" class="form-input__validation form-input__validation--error">{{ validation?.email
                 }}</div>
             </div>
             <div class="form-input">
                 <div class="form-input__label">Password</div>
                 <input class="form-input__control" type="password" name="password" v-model="password">
-                <div v-if="errors?.password" class="form-input__validation form-input__validation--error">{{
-                errors?.password }}</div>
+                <div v-if="validation?.password" class="form-input__validation form-input__validation--error">{{
+                validation?.password }}</div>
             </div>
         </div>
         <button type="submit" class="submit" @click="login()">Login</button>
@@ -27,10 +27,10 @@ import { useAuthStore } from '@/stores/auth';
 export default {
     data() {
         return {
+            loading: false,
             email: '',
             password: '',
-            errors: {
-                generic: '',
+            validation: {
                 email: '',
                 password: ''
             }
@@ -40,12 +40,16 @@ export default {
     },
     methods: {
         clearErrors() {
-            this.errors.generic = '';
-            this.errors.email = '';
-            this.errors.password = '';
+            this.validation.email = '';
+            this.validation.password = '';
         },
         async login() {
-            useAuthStore().login(this.email, this.password);
+            this.loading = true;
+            const loginResult = await useAuthStore().login(this.email, this.password);
+            if(loginResult && loginResult.validation){
+                this.validation = loginResult.validation
+            }
+            this.loading = false;
         }
     }
 }

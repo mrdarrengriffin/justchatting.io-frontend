@@ -21,7 +21,7 @@ export const useAuthStore = defineStore({
   actions: {
     async login(email, password) {
       useAlertStore().clear();
-      await axios
+      return await axios
         .post(import.meta.env.VITE_SERVER_URI + "/user/login", {
           email: email,
           password: password,
@@ -34,12 +34,19 @@ export const useAuthStore = defineStore({
         })
         .catch((error) => {
           var data = error.response.data;
-          useAlertStore().error(data.error);
+          if(!data){
+            useAlertStore().error(error.message);
+            return;
+          }
+          if(data && data.error){
+            useAlertStore().error(data.error);
+          }
+          return data;
         });
     },
     async register(name, email, password) {
         useAlertStore().clear();
-        await axios
+        return await axios
           .post(import.meta.env.VITE_SERVER_URI + "/user/register", {
             name: name,
             email: email,
@@ -53,7 +60,10 @@ export const useAuthStore = defineStore({
           })
           .catch((error) => {
             var data = error.response.data;
-            useAlertStore().error(data.error);
+            if(data && data.error){
+              useAlertStore().error(data.error);
+            }
+            return data;
           });
       },
     logout() {

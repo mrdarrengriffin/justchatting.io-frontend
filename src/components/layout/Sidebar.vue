@@ -90,7 +90,7 @@ export default {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    height: calc(100vh - 56px);
+    flex-grow: 1;
     padding: 2rem 0 1rem 0;
     transition: width .5s, padding .5s;
     width: 250px;

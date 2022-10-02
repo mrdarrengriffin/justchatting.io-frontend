@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
+import Banner from "./components/layout/Banner.vue";
 import Header from "./components/layout/Header.vue";
 import Sidebar from "./components/layout/Sidebar.vue";
 
@@ -8,6 +9,7 @@ const authStore = useAuthStore();
 </script>
 
 <template>
+	<Banner />
 	<Header />
 	<div class="main">
 		<Sidebar v-if="authStore.token" />
@@ -19,7 +21,7 @@ const authStore = useAuthStore();
 <style lang="scss" scoped>
 	.main {
 		display: flex;
-		height: calc(100vh - 56px);
+		flex-grow: 1;
 		
 		.router-wrapper{
 			padding: 1rem;
