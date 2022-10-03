@@ -21,10 +21,12 @@ const authStore = useAuthStore();
 <style lang="scss" scoped>
 	.main {
 		display: flex;
+		overflow: hidden;
 		flex-grow: 1;
 		
 		.router-wrapper{
-			padding: 1rem;
+			display: flex;
+			flex-grow: 1;
 			width: 100%;
 		}
 	}

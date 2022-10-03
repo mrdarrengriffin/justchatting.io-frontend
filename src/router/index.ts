@@ -27,6 +27,11 @@ const router = createRouter({
       component: BetterChatView,
     },
     {
+      path: "/better-chat/:streamer",
+      name: "better-chat-streamer",
+      component: BetterChatView,
+    },
+    {
       path: "/login",
       name: "login",
       component: LoginView,
