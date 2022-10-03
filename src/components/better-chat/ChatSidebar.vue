@@ -26,7 +26,7 @@ export default {
     },
     methods: {
         addStreamer(){
-            const streamer = prompt('Enter the username of the streamer');
+            const streamer = prompt('Enter the username of the streamer (case sensitive)');
             this.streamers.push(streamer);
             this.$router.push({name: 'better-chat-streamer', params: {streamer: streamer}});
             this.$emit('changeStreamer', streamer);
