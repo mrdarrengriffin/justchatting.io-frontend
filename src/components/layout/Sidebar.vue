@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="sidebar__nav-group">
-                <div class="sidebar__nav-group__title">Archive</div>
+                <div class="sidebar__nav-group__title">Download</div>
                 <div class="sidebar__nav-group__nav">
                     <RouterLink to="/" class="nav-item">
                         <i class="bi bi-camera-video nav-item__icon"></i>
@@ -24,6 +24,25 @@
                     <RouterLink to="/about" class="nav-item">
                         <i class="bi bi-chat-right-text nav-item__icon"></i>
                         <span class="nav-item__label">Chat</span>
+                    </RouterLink>
+                </div>
+            </div>
+            <div class="sidebar__nav-group">
+                <div class="sidebar__nav-group__title">Real-Time Tools</div>
+                <div class="sidebar__nav-group__nav">
+                    <RouterLink to="/better-chat" class="nav-item">
+                        <i class="bi bi-soundwave nav-item__icon"></i>
+                        <span class="nav-item__label">Better Chat</span>
+                    </RouterLink>
+                    <RouterLink to="/about" class="nav-item">
+                        <i class="bi bi-graph-up nav-item__icon"></i>
+                        <span class="nav-item__label">Stream Insights</span>
+                        <div class="sidebar__subnav">
+                            <RouterLink to="/" class="nav-item">
+                                <i class="bi bi-soundwave nav-item__icon"></i>
+                                <span class="nav-item__label">Chat Interaction</span>
+                            </RouterLink>
+                        </div>
                     </RouterLink>
                 </div>
             </div>
@@ -37,6 +56,12 @@
                     <RouterLink to="/about" class="nav-item">
                         <i class="bi bi-graph-up nav-item__icon"></i>
                         <span class="nav-item__label">Overall Stats</span>
+                        <div class="sidebar__subnav">
+                            <RouterLink to="/?" class="nav-item">
+                                <i class="bi bi-soundwave nav-item__icon"></i>
+                                <span class="nav-item__label">Chat Interaction</span>
+                            </RouterLink>
+                        </div>
                     </RouterLink>
                 </div>
             </div>
@@ -62,18 +87,18 @@
 export default {
     data() {
         return {
-            collapsed: false               
+            collapsed: false
         }
     },
     methods: {
-        toggleCollapse(){
+        toggleCollapse() {
             this.collapsed = !this.collapsed
             localStorage.setItem('sidebarCollapsed', this.collapsed ? 'true' : 'false')
         }
     },
     mounted() {
         const storedSidebarCollapsedState = localStorage.getItem('sidebarCollapsed');
-        if(storedSidebarCollapsedState && storedSidebarCollapsedState == 'true'){
+        if (storedSidebarCollapsedState && storedSidebarCollapsedState == 'true') {
             this.collapsed = true;
         }
         console.log(storedSidebarCollapsedState);
@@ -86,7 +111,7 @@ export default {
     background-color: #FFFFFF;
     border-right: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0 0 .5rem rgba(0, 0, 0, 0.15);
-    box-sizing: border-box;
+    //box-sizing: border-box;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
@@ -94,8 +119,7 @@ export default {
     padding: 2rem 0 1rem 0;
     transition: width .5s, padding .5s;
     width: 250px;
-    overflow: hidden;
-    
+
     &--collapsed {
         padding: 1rem 0;
         width: 56px;
@@ -108,7 +132,7 @@ export default {
             }
         }
 
-        &__nav{
+        &__nav {
             gap: 0;
         }
 
@@ -132,22 +156,28 @@ export default {
         justify-content: flex-end;
         padding: 0 1rem;
         margin-top: 1rem;
-        
-        i{
+
+        i {
             cursor: pointer;
         }
     }
-    
+
     &__nav {
         display: flex;
         flex-direction: column;
-        flex-grow: 1;
         gap: 2rem;
-        overflow-x: hidden;
-        overflow-y: auto;
+        position: sticky;
+        top: 2rem;
         transition: gap .25s;
     }
-    
+
+    &__subnav {
+        background-color: #FFFFFF;
+
+        left: 250px;
+        transition: width .25s ease-in-out;
+    }
+
     &__nav-group {
         &__title {
             color: rgba(0, 0, 0, 0.5);
@@ -164,18 +194,42 @@ export default {
         &__nav {
             display: flex;
             flex-direction: column;
-            
+
             .nav-item {
+                display: block;
                 padding: .75rem 1rem;
                 white-space: nowrap;
                 font-size: 14px;
+                position: relative;
                 transition: background-color .25s ease-in-out;
-                
-                &:hover, &.router-link-active {
+
+                .sidebar__subnav {
+                    display: none;
+                    margin: 1rem -1rem -.75rem -1rem;
+                    .nav-item{
+                        padding: .75rem 1rem .75rem 2rem;
+                    }
+                }
+
+                &:has(.router-link-active) {
+                    .sidebar__subnav {
+                        display: block;
+                    }
+                }
+
+
+                &:hover,
+                &.router-link-active {
                     background-color: rgba(0, 0, 0, 0.05);
                 }
                 
-                &__label{
+                &.router-link-active {
+                    .sidebar__subnav{
+                        display: block;
+                    }
+                }
+
+                &__label {
                     transition: color .25s ease-in-out;
                 }
 

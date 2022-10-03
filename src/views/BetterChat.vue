@@ -1,0 +1,4 @@
+<template>
+    <Alert />
+    <Chat />
+</template>

@@ -53,6 +53,7 @@ export default {
     background-color: #FFFFFF;
     box-shadow: 0 0 .5rem rgba(0, 0, 0, 0.15);
     display: flex;
+    flex-shrink: 0;
     height: 56px;
     position: relative;
 
