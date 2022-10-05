@@ -1,9 +1,7 @@
 <template>
     <div class="message">
         <div class="message__username" :style="'color: ' + tags.color">{{ tags.username }}</div>
-        <div class="message__text">
-            {{ message }}
-        </div>
+        <div class="message__text" v-html="message"></div>
     </div>
 </template>
 
@@ -15,7 +13,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     .message{
         font-size: 14px; 
         &__username, &__text{
@@ -24,6 +22,11 @@ export default {
 
         &__text{
             word-wrap: break-word;
+
+            .emote{
+                height: 30px;
+                margin-bottom: -10px;
+            }
         }
         &__username{
             font-weight: 600;
@@ -32,5 +35,6 @@ export default {
                 margin-right: .25rem;
             }
         }
+
     }
 </style>
