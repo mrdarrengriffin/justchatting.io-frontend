@@ -4,8 +4,8 @@
         </div>
         <button @click="clear()">Clear</button>
         <div class="messages">
-            <Message v-for="message in messages" :key="message.id" :channel="message.channel" :message="message.message"
-                :tags="message.tags" />
+            <Message v-for="message in messages" :key="message" :channel="message.channel" :message="message.message"
+                :tags="message.tags" :badges="message.badges" />
         </div>
     </div>
 </template>
@@ -13,45 +13,40 @@
 <script lang="ts">
 import axios from "axios";
 import Message from "./Message.vue";
+import emoteParser from 'tmi-emote-parse';
 
 export default {
-    props: ['streamer'],
+    props: ['targetStreamer'],
     data() {
         return {
             messages: [],
             streamer: '',
-            emotes: {
-                global: {},
-                channel: {},
-                matches: []
-            },
             pauseScroll: false
         };
     },
     watch: {
-        streamer(newStreamer, oldStreamer) {
+        // On streamer changed event, clear the chat, set the streamer and connect to the chat
+        targetStreamer(newStreamer, oldStreamer) {
             this.clear();
+            console.log(newStreamer, oldStreamer);
             this.changeStreamer(newStreamer);
         }
     },
     mounted() {
-        // Reset emotes
-        this.emotes.global = {};
-        this.emotes.channel = {};
-        this.emotes.matches = [];
+        // Register emote parser
+        emoteParser.setTwitchCredentials(import.meta.env.VITE_TWITCH_CLIENT_ID, import.meta.env.VITE_TWITCH_CLIENT_OAUTH);
 
         this.$socket.connect();
         this.messages = [];
-        // If no streamer provided in route, don't listen for messages
-        if (!this.$route.params.streamer) {
+        
+        if (!this.targetStreamer) {
             return;
         }
+        console.log(this.$route.params.streamer);
+        //console.log(this.$route.params);
         this.changeStreamer(this.$route.params.streamer);
 
         document.querySelector('.messages').addEventListener('wheel', this.pauseScrolling);
-
-        this.getGlobalEmotes();
-
     },
     beforeUnmount() {
         this.$socket.disconnect();
@@ -59,9 +54,16 @@ export default {
     sockets: {
         chatMessage: function (message) {
             // Replace any emotes
-            message = this.injectEmoteIntoMessage(message);
-
-            this.messages.push(message);
+            message.message = emoteParser.replaceEmotes(message.message, message.tags, message.channel);
+            console.log(emoteParser.getBadges(message.tags, message.channel));
+            this.messages.push(
+                {
+                    badges: emoteParser.getBadges(message.tags, message.channel),
+                    message: message.message,
+                    tags: message.tags,
+                    channel: message.channel
+                }
+            );
             this.pauseScrolling();
             // Keep only the last 100 messages
             if (!this.pauseScroll) {
@@ -77,7 +79,7 @@ export default {
             this.messages = [];
         },
         resumeScroll() {
-            scrollToView();
+            this.scrollToView();
         },
         pauseScrolling() {
             //console.log((document.querySelector('.messages').scrollTop - (document.querySelector('.messages').scrollHeight - document.querySelector('.messages').offsetHeight)));
@@ -94,80 +96,16 @@ export default {
         changeStreamer(streamer) {
             this.$socket.emit('join', streamer);
             this.streamer = streamer;
-            this.getChannelEmotes(streamer);
+            //this.getChannelEmotes(streamer);
+            emoteParser.setDebug(true);
+            emoteParser.events.on("error", e => {
+                console.log("Error:", e);
+            })
+
+            emoteParser.loadAssets(streamer);
         },
         getMessages() {
             return this.messages;
-        },
-        injectEmoteIntoMessage(message) {
-            // Split words and see if any match any emotes
-            let words = message.message.split(' ');
-            words.forEach(word => {
-                if (this.emotes.matches.includes(word)) {
-                    // Channel emotes
-                    const channelEmote = this.emotes.channel.filter(emote => { return emote.code == word && emote.provider == 0 })
-                    if(channelEmote && channelEmote.length > 0 && channelEmote[0].urls){
-                        message.message = message.message.replace(word, `<img class="emote" src="${channelEmote[0].urls[channelEmote[0].urls.length - 1]['url']}" />`);
-                        return;
-                    }
-
-                    // 7TV
-                    const seventvEmote = this.emotes.channel.filter(emote => { return emote.code == word && emote.provider == 1 })
-                    if(seventvEmote && seventvEmote.length > 0 && seventvEmote[0].urls){
-                        message.message = message.message.replace(word, `<img class="emote" src="${seventvEmote[0].urls[seventvEmote[0].urls.length - 1]['url']}" />`);
-                        return;
-                    }
-
-                    // BetterTTV
-                    const betterTTVEmote = this.emotes.channel.filter(emote => { return emote.code == word && emote.provider == 2 })
-                    if(betterTTVEmote && betterTTVEmote.length > 0 && betterTTVEmote[0].urls){
-                        message.message = message.message.replace(word, `<img class="emote" src="${betterTTVEmote[0].urls[betterTTVEmote[0].urls.length - 1]['url']}" />`);
-                        return;
-                    }
-
-                    // FFZ
-                    const ffzEmote = this.emotes.channel.filter(emote => { return emote.code == word && emote.provider == 3 })
-                    if(ffzEmote && ffzEmote.length > 0 && ffzEmote[0].urls){
-                        message.message = message.message.replace(word, `<img class="emote" src="${ffzEmote[0].urls[ffzEmote[0].urls.length - 1]['url']}" />`);
-                        return;
-                    }   
-
-                    // Global Emote
-                    const globalEmote = this.emotes.global.filter(emote => { return emote.code == word })
-                    if(globalEmote && globalEmote.length > 0 && globalEmote[0].urls){
-                        message.message = message.message.replace(word, `<img class="emote" src="${globalEmote[0].urls[globalEmote[0].urls.length - 1]['url']}" />`);
-                        return;
-                    }
-                }
-            });
-
-            return message;
-        },
-        getGlobalEmotes() {
-            axios.get(import.meta.env.VITE_SERVER_URI + '/twitch/emotes/global').then((response) => {
-                this.emotes.global = response.data;
-                this.roundupEmoteWords();
-            });
-        },
-        getChannelEmotes(streamer) {
-            axios.get(import.meta.env.VITE_SERVER_URI + '/twitch/emotes/streamer/' + streamer).then((response) => {
-                this.emotes.channel = response.data;
-                this.roundupEmoteWords();
-            });
-        },
-        roundupEmoteWords() {
-            Object.values(this.emotes.global).forEach((emote) => {
-                if (this.emotes.matches.includes(emote.code)) {
-                    return;
-                }
-                this.emotes.matches.push(emote.code)
-            });
-            Object.values(this.emotes.channel).forEach((emote) => {
-                if (this.emotes.matches.includes(emote.code)) {
-                    return;
-                }
-                this.emotes.matches.push(emote.code)
-            });
         }
     },
     components: { Message }
@@ -183,6 +121,7 @@ export default {
 
     .messages {
         line-height: 24px;
+        margin: 0 0 0 1rem;
         overflow-y: auto;
         position: relative;
     }

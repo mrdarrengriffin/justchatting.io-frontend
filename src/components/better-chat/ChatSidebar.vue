@@ -25,11 +25,13 @@ export default {
     beforeUnmount() {
     },
     methods: {
-        addStreamer(){
-            const streamer = prompt('Enter the username of the streamer (case sensitive)');
+        addStreamer(streamer){
             this.streamers.push(streamer);
             this.$router.push({name: 'better-chat-streamer', params: {streamer: streamer}});
             this.$emit('changeStreamer', streamer);
+        },
+        promptUsername(){
+            this.addStreamer(prompt('Enter the username of the streamer (case sensitive)')); 
         }
     }
 }

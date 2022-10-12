@@ -12,6 +12,8 @@ import LoginCard from "./components/ui/LoginCard.vue";
 import RegisterCard from "./components/ui/RegisterCard.vue";
 import Chat from "./components/better-chat/Chat.vue";
 import ChatSidebar from "./components/better-chat/ChatSidebar.vue";
+import Playlist from "./components/song-request/Playlist.vue";
+
 
 const app = createApp(App);
 
@@ -25,6 +27,7 @@ app.component("LoginCard", LoginCard);
 app.component("RegisterCard", RegisterCard);
 app.component("Chat", Chat);
 app.component("ChatSidebar", ChatSidebar);
+app.component("Playlist", Playlist);
 
 app.config.globalProperties.$auth = false;
 
