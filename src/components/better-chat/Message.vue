@@ -32,7 +32,7 @@ export default {
 
     &__badges {
         display: flex;
-        gap: 4px;
+        gap: 2px;
     }
     &__badge {
         img {
