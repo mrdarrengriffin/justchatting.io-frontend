@@ -7,6 +7,7 @@ import RegisterView from "../views/RegisterView.vue";
 import HomeView from "../views/HomeView.vue";
 import AboutView from "../views/AboutView.vue";
 import BetterChatView from "../views/BetterChat.vue";
+import SongRequestView from "../views/SongRequest.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,6 +26,11 @@ const router = createRouter({
       path: "/better-chat",
       name: "better-chat",
       component: BetterChatView,
+    },
+    {
+      path: "/song-request",
+      name: "song-request",
+      component: SongRequestView,
     },
     {
       path: "/better-chat/:streamer",
