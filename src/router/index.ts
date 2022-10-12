@@ -12,6 +12,7 @@ import SongRequestView from "../views/SongRequest.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    { path: '/:pathMatch(.*)', component: HomeView },
     {
       path: "/",
       name: "home",

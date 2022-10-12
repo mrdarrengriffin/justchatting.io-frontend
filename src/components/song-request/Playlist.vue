@@ -28,7 +28,7 @@ export default {
             if (match && match[2].length == 11) {
                 return `https://img.youtube.com/vi/${match[2]}/0.jpg`;
             } else {
-                return false;
+                return '';
             }
         }
     }

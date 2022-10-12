@@ -52,7 +52,7 @@ export default {
         this.$socket.disconnect();
     },
     sockets: {
-        chatMessage: function (message) {
+        chatMessage: function (message: any) {
             // Replace any emotes
             message.message = emoteParser.replaceEmotes(message.message, message.tags, message.channel);
             console.log(emoteParser.getBadges(message.tags, message.channel));
