@@ -13,7 +13,7 @@
 <script lang="ts">
 import axios from "axios";
 import Message from "./Message.vue";
-import emoteParser from 'tmi-emote-parse';
+import * as emoteParser from 'tmi-emote-parse';
 
 export default {
     props: ['targetStreamer'],
@@ -121,7 +121,7 @@ export default {
 
     .messages {
         line-height: 24px;
-        margin: 0 0 0 1rem;
+        margin: 0 0 0 .5rem;
         overflow-y: auto;
         position: relative;
     }

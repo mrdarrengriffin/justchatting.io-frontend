@@ -10,9 +10,9 @@ import BetterChatView from "../views/BetterChat.vue";
 import SongRequestView from "../views/SongRequest.vue";
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes: [
-    { path: '/:pathMatch(.*)', component: HomeView },
+    //{ path: '/:pathMatch(.*)', component: HomeView },
     {
       path: "/",
       name: "home",

@@ -4,7 +4,7 @@
             <RouterLink @click="$emit('changeStreamer', streamer)" :to="{name: 'better-chat-streamer', params: {streamer: streamer}}" class="nav-item" v-for="streamer in streamers" :key="streamer">
                 <span class="nav-item__label">{{ streamer }}</span>
             </RouterLink>
-            <div class="nav-item" @click="addStreamer()">Add streamer</div>
+            <div class="nav-item" @click="promptUsername()">Add streamer</div>
 
         </div>
     </div>
