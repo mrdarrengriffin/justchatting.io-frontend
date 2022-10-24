@@ -1,5 +1,6 @@
 <template>
-    <Chat :targetStreamer="streamer" :clearBtn="false" :alwaysScroll="true" :messageLimit="messageLimit" :scrollbar="false" :messageExpiry="messageExpiry" />
+    <Chat :targetStreamer="streamer" :clearBtn="false" :alwaysScroll="true" :messageLimit="messageLimit"
+        :scrollbar="false" :messageExpiry="messageExpiry" />
 </template>
 <script>
 export default {
@@ -18,20 +19,20 @@ export default {
         const queryArgs = new URL(window.location);
 
         var messageLimitQuery = queryArgs.searchParams.get('messageLimit')
-        if(messageLimitQuery){
+        if (messageLimitQuery) {
             this.messageLimit = messageLimitQuery;
 
             // Maximum is 100
-            if(this.messageLimit > 100){
+            if (this.messageLimit > 100) {
                 this.messageLimit = 100;
             }
         }
         var messageExpiryQuery = queryArgs.searchParams.get('messageExpiry')
-        if(messageExpiryQuery){
+        if (messageExpiryQuery) {
             this.messageExpiry = messageExpiryQuery;
 
             // Maximum is 100
-            if(this.messageExpiry > 100){
+            if (this.messageExpiry > 100) {
                 this.messageExpiry = 100;
             }
         }
@@ -46,33 +47,25 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
-.router-wrapper{
+.router-wrapper {
     align-items: flex-end;
 }
 
-.chat {
+.chat :deep {
     display: flex;
     flex-grow: 1;
     justify-content: flex-end;
     overflow: hidden;
     width: 100%;
-}
 
-.message {
-    text-shadow: -1px -1px 1px #000, 1px -1px 1px #000, 1px 1px 1px #000, -1px 1px 1px #000;
-    font-weight: 600;
+    .message {
+        text-shadow: -1px -1px 1px #000, 1px -1px 1px #000, 1px 1px 1px #000, -1px 1px 1px #000;
+        font-weight: 600;
 
-    &__text {
-        color: #ffffff;
+        &__text {
+            color: #ffffff;
+        }
     }
-}
 
-.chat-wrapper {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    position: relative;
-    flex-grow: 1;
 }
 </style>

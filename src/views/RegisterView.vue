@@ -8,6 +8,7 @@
     align-items: center;
     display: flex;
     height: 60%;
+    flex-grow: 1;
     justify-content: center;
 }
 </style>
