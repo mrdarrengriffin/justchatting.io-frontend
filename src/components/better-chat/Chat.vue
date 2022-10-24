@@ -16,7 +16,7 @@ import Message from "./Message.vue";
 import * as emoteParser from 'tmi-emote-parse';
 
 export default {
-    props: ['targetStreamer', 'clearBtn', 'alwaysScroll'],
+    props: {'targetStreamer': String, 'clearBtn': Boolean, 'alwaysScroll': Boolean, messageLimit:{default: 100}},
     data() {
         return {
             messages: [],
@@ -38,14 +38,16 @@ export default {
 
         this.$socket.connect();
         this.messages = [];
-        
+
         if (!this.targetStreamer) {
             return;
         }
 
         this.changeStreamer(this.$route.params.streamer);
 
-        document.querySelector('.messages').addEventListener('wheel', this.pauseScrolling);
+        if(!this.alwaysScroll){
+            document.querySelector('.messages').addEventListener('wheel', this.pauseScrolling);
+        }
     },
     beforeUnmount() {
         this.$socket.disconnect();
@@ -53,7 +55,7 @@ export default {
     sockets: {
         chatMessage: function (message: any) {
             // Replace any emotes
-        
+
             this.messages.push(
                 {
                     badges: emoteParser.getBadges(message.tags, message.channel),
@@ -64,13 +66,14 @@ export default {
                 }
             );
 
-            this.pauseScrolling();
-            
+            if (!this.alwaysScroll) {
+                this.pauseScrolling();
+            }
+
             // Keep only the last 100 messages
             if (!this.pauseScroll) {
-                this.messages = this.messages.slice(-100);
+                this.messages = this.messages.slice(-this.messageLimit);
             }
-            console.log(this.alwaysScroll)
             if (!this.pauseScroll || this.alwaysScroll) {
                 this.scrollToView();
             }
@@ -93,7 +96,7 @@ export default {
             }
         },
         scrollToView() {
-            document.querySelector('.messages').scrollTo({ top: document.querySelector('.messages').scrollHeight });
+            document.querySelector('.messages').scrollTo({ top: document.querySelector('.messages').scrollHeight, behavior: 'smooth' });
         },
         changeStreamer(streamer) {
             this.$socket.emit('join', streamer);
@@ -124,6 +127,7 @@ export default {
     .messages {
         line-height: 24px;
         margin: 0 0 0 .5rem;
+        scroll-behavior: smooth;
         overflow-y: auto;
         position: relative;
     }

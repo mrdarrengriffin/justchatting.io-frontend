@@ -31,7 +31,6 @@ export default {
 .better-chat {
     display: flex;
     flex-grow: 1;
-
 }
 
 .chat-wrapper {

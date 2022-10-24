@@ -1,18 +1,33 @@
 <template>
-    <Chat :targetStreamer="streamer" :clearBtn="false" :alwaysScroll="true" />
+    <Chat :targetStreamer="streamer" :clearBtn="false" :alwaysScroll="true" :messageLimit="messageLimit" />
 </template>
 <script>
 export default {
     data() {
         return {
-            streamer: null
+            streamer: null,
+            messageLimit: 25
         }
     },
     mounted() {
         if (this.$route.params.streamer) {
             this.setStreamer(this.$route.params.streamer);
         }
+
+        const queryArgs = new URL(window.location);
+
+        var messageLimitQuery = queryArgs.searchParams.get('messageLimit')
+        if(messageLimitQuery){
+            this.messageLimit = messageLimitQuery;
+
+            // Maximum is 100
+            if(this.messageLimit > 100){
+                this.messageLimit = 100;
+            }
+        }
+
     },
+
     methods: {
         setStreamer(streamer) {
             this.streamer = streamer;
@@ -21,9 +36,15 @@ export default {
 }
 </script>
 <style lang="scss">
-body{
+body {
     background: transparent !important;
 }
+
+.router-wrapper{
+    align-items: flex-end;
+}
+
+.banner,
 .sidebar,
 .header {
     display: none !important;
@@ -36,8 +57,17 @@ body{
 
 }
 
-.message{
-    text-shadow: 0 0 1px #000, 0 0 2px #000
+.messages {
+    overflow: hidden !important;
+}
+
+.message {
+    text-shadow: -1px -1px 1px #000, 1px -1px 1px #000, 1px 1px 1px #000, -1px 1px 1px #000;
+    font-weight: 600;
+
+    &__text {
+        color: #ffffff;
+    }
 }
 
 .chat-wrapper {
