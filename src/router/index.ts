@@ -52,7 +52,7 @@ const router = createRouter({
     {
       path: "/obs/overlay/chat/:streamer",
       component: OBSChatOverlay,
-      name: "obs",
+      name: "obs-overlay-chat",
     }
     
   ],

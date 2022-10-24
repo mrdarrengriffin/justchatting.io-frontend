@@ -1,5 +1,5 @@
 <template>
-    <Chat :targetStreamer="streamer" :clearBtn="false" :alwaysScroll="true" :messageLimit="messageLimit" />
+    <Chat :targetStreamer="streamer" :clearBtn="false" :alwaysScroll="true" :messageLimit="messageLimit" :scrollbar="false" :messageExpiry="messageExpiry" />
 </template>
 <script>
 export default {
@@ -25,6 +25,15 @@ export default {
                 this.messageLimit = 100;
             }
         }
+        var messageExpiryQuery = queryArgs.searchParams.get('messageExpiry')
+        if(messageExpiryQuery){
+            this.messageExpiry = messageExpiryQuery;
+
+            // Maximum is 100
+            if(this.messageExpiry > 100){
+                this.messageExpiry = 100;
+            }
+        }
 
     },
 
@@ -35,7 +44,7 @@ export default {
     }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 body {
     background: transparent !important;
 }
@@ -44,21 +53,12 @@ body {
     align-items: flex-end;
 }
 
-.banner,
-.sidebar,
-.header {
-    display: none !important;
-}
-
-.better-chat {
+.chat {
     display: flex;
     flex-grow: 1;
+    justify-content: flex-end;
     overflow: hidden;
-
-}
-
-.messages {
-    overflow: hidden !important;
+    width: 100%;
 }
 
 .message {

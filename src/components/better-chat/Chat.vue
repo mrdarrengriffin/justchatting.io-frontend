@@ -1,6 +1,6 @@
 <template>
-    <div class="chat" :class="[{'paused': pauseScroll}]">
-        <div class="chat__resume" @click="scrollToView();pauseScroll = false">Chat paused due to scroll. Click to resume
+    <div class="chat" :class="[{'paused': pauseScroll}, {'scrollable': scrollbar}]">
+        <div class="chat__resume" @click="scrollToView();pauseScroll = false" v-if="!alwaysScroll">Chat paused due to scroll. Click to resume
         </div>
         <button @click="clear()" v-if="!!clearBtn">Clear</button>
         <div class="messages">
@@ -16,7 +16,15 @@ import Message from "./Message.vue";
 import * as emoteParser from 'tmi-emote-parse';
 
 export default {
-    props: {'targetStreamer': String, 'clearBtn': Boolean, 'alwaysScroll': Boolean, messageLimit:{default: 100}},
+    props: {
+        'targetStreamer': String,
+        'clearBtn': Boolean,
+        'alwaysScroll': Boolean,
+        messageLimit:{default: 100},
+        scrollbar:{default: true},
+        messageExpiry: {default: 30}
+
+    },
     data() {
         return {
             messages: [],
@@ -65,6 +73,10 @@ export default {
                     channel: message.channel
                 }
             );
+
+            setTimeout(() => {
+                this.messages.shift();
+            }, this.messageExpiry * 1000);
 
             if (!this.alwaysScroll) {
                 this.pauseScrolling();
@@ -124,11 +136,15 @@ export default {
     overflow: hidden;
     position: relative;
 
+    &.scrollable{
+        .messages{
+            overflow-y: auto;
+        }
+    }
     .messages {
         line-height: 24px;
         margin: 0 0 0 .5rem;
         scroll-behavior: smooth;
-        overflow-y: auto;
         position: relative;
     }
 

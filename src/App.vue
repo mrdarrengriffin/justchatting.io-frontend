@@ -6,13 +6,16 @@ import Sidebar from "./components/layout/Sidebar.vue";
 
 import { useAuthStore } from "@/stores/auth";
 const authStore = useAuthStore();
+
+const nouiRoutes = ['obs-overlay-chat'];
+
 </script>
 
 <template>
-	<Banner />
-	<Header />
+	<Banner v-if="!nouiRoutes.includes(this.$route.name)" />
+	<Header v-if="!nouiRoutes.includes(this.$route.name)" />
 	<div class="main">
-		<Sidebar v-if="authStore.token" />
+		<Sidebar v-if="authStore.token && !nouiRoutes.includes(this.$route.name)" />
 		<div class="router-wrapper">
 			<RouterView />
 		</div>
