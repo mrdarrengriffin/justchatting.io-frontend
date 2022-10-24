@@ -10,6 +10,7 @@ export default {
         }
     },
     mounted() {
+        document.body.style.backgroundColor = 'transparent';
         if (this.$route.params.streamer) {
             this.setStreamer(this.$route.params.streamer);
         }
@@ -45,9 +46,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-body {
-    background: transparent !important;
-}
 
 .router-wrapper{
     align-items: flex-end;
