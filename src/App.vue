@@ -19,6 +19,7 @@ const authStore = useAuthStore();
 	</div>
 </template>
 <style lang="scss" scoped>
+
 	.main {
 		display: flex;
 		overflow: hidden;

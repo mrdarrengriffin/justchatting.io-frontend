@@ -20,42 +20,47 @@ export default {
 
 <style lang="scss">
 .message {
+    display: block;
     font-size: 14px;
-    display: flex;
-    gap: 8px;
+    margin-bottom: 6px;
 
     &__badges,
     &__badge,
     &__username {
-        display: inline-flex;
+        display: inline-block;
     }
 
     &__badges {
-        display: flex;
-        gap: 2px;
+        display: inline-flex;
     }
+
     &__badge {
+        margin-right: 4px;
+    
         img {
             height: 18px;
+            margin-bottom: -4px;
         }
     }
-
+    
     &__text {
+        display: inline;
         word-wrap: break-word;
-
+        
         .message-emote {
             height: 28px;
+            margin: -9px 0;
         }
     }
 
     &__username {
         font-weight: 600;
+        margin-right: 2px;
 
         &:after {
             content: ':';
             margin-right: .25rem;
         }
     }
-
 }
 </style>

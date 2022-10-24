@@ -7,6 +7,7 @@ import RegisterView from "../views/RegisterView.vue";
 import HomeView from "../views/HomeView.vue";
 import AboutView from "../views/AboutView.vue";
 import BetterChatView from "../views/BetterChat.vue";
+import OBSChatOverlay from "../views/obs/overlays/Chat.vue";
 import SongRequestView from "../views/SongRequest.vue";
 
 const router = createRouter({
@@ -48,6 +49,11 @@ const router = createRouter({
       name: "register",
       component: RegisterView,
     },
+    {
+      path: "/obs/overlay/chat/:streamer",
+      component: OBSChatOverlay,
+      name: "obs",
+    }
     
   ],
 });

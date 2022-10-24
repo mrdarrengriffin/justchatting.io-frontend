@@ -2,7 +2,7 @@
     <div class="chat" :class="[{'paused': pauseScroll}]">
         <div class="chat__resume" @click="scrollToView();pauseScroll = false">Chat paused due to scroll. Click to resume
         </div>
-        <button @click="clear()">Clear</button>
+        <button @click="clear()" v-if="!!clearBtn">Clear</button>
         <div class="messages">
             <Message v-for="message in messages" :key="message" :channel="message.channel" :message="message.message"
                 :tags="message.tags" :badges="message.badges" />
@@ -16,7 +16,7 @@ import Message from "./Message.vue";
 import * as emoteParser from 'tmi-emote-parse';
 
 export default {
-    props: ['targetStreamer'],
+    props: ['targetStreamer', 'clearBtn', 'alwaysScroll'],
     data() {
         return {
             messages: [],
@@ -27,9 +27,9 @@ export default {
     watch: {
         // On streamer changed event, clear the chat, set the streamer and connect to the chat
         targetStreamer(newStreamer, oldStreamer) {
-            this.clear();
             console.log(newStreamer, oldStreamer);
             this.changeStreamer(newStreamer);
+            this.clear();
         }
     },
     mounted() {
@@ -42,8 +42,7 @@ export default {
         if (!this.targetStreamer) {
             return;
         }
-        console.log(this.$route.params.streamer);
-        //console.log(this.$route.params);
+
         this.changeStreamer(this.$route.params.streamer);
 
         document.querySelector('.messages').addEventListener('wheel', this.pauseScrolling);
@@ -54,22 +53,25 @@ export default {
     sockets: {
         chatMessage: function (message: any) {
             // Replace any emotes
-            message.message = emoteParser.replaceEmotes(message.message, message.tags, message.channel);
-            console.log(emoteParser.getBadges(message.tags, message.channel));
+        
             this.messages.push(
                 {
                     badges: emoteParser.getBadges(message.tags, message.channel),
-                    message: message.message,
+                    message: emoteParser.replaceEmotes(message.message, message.tags, message.channel),
+                    messageRaw: message.message,
                     tags: message.tags,
                     channel: message.channel
                 }
             );
+
             this.pauseScrolling();
+            
             // Keep only the last 100 messages
             if (!this.pauseScroll) {
                 this.messages = this.messages.slice(-100);
             }
-            if (!this.pauseScroll) {
+            console.log(this.alwaysScroll)
+            if (!this.pauseScroll || this.alwaysScroll) {
                 this.scrollToView();
             }
         }
@@ -96,11 +98,11 @@ export default {
         changeStreamer(streamer) {
             this.$socket.emit('join', streamer);
             this.streamer = streamer;
-            //this.getChannelEmotes(streamer);
             emoteParser.setDebug(true);
             emoteParser.events.on("error", e => {
                 console.log("Error:", e);
             })
+            this.clear();
 
             emoteParser.loadAssets(streamer);
         },
