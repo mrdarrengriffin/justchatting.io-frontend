@@ -12,26 +12,25 @@ const nouiRoutes = ['obs-overlay-chat'];
 </script>
 
 <template>
-	<Banner v-if="!nouiRoutes.includes(this.$route.name)" />
-	<Header v-if="!nouiRoutes.includes(this.$route.name)" />
+	<Banner v-if="!nouiRoutes.includes($route.name)" />
+	<Header v-if="!nouiRoutes.includes($route.name)" />
 	<div class="main">
-		<Sidebar v-if="authStore.token && !nouiRoutes.includes(this.$route.name)" />
+		<Sidebar v-if="authStore.token && !nouiRoutes.includes($route.name)" />
 		<div class="router-wrapper">
 			<RouterView />
 		</div>
 	</div>
 </template>
 <style lang="scss" scoped>
+.main {
+	display: flex;
+	overflow: hidden;
+	flex-grow: 1;
 
-	.main {
+	.router-wrapper {
 		display: flex;
-		overflow: hidden;
 		flex-grow: 1;
-		
-		.router-wrapper{
-			display: flex;
-			flex-grow: 1;
-			width: 100%;
-		}
+		width: 100%;
 	}
+}
 </style>
