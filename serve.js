@@ -11,8 +11,9 @@ const { createServer } = require("https");
 const app = express();
 
 // Enable history API fallback
-app.use(history());
-
+app.use(history({
+    verbose: true
+  }));
 // Create the https server with the certificate
 const httpServer = createServer({
     key: fs.readFileSync("./server.key"),
@@ -20,9 +21,7 @@ const httpServer = createServer({
 }, app);
 
 // Serve static files
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, './dist/index.html'));
-})
+app.use('/', express.static(path.join(__dirname, 'dist')));
 
 // Also serve assets
 app.use(express.static(path.join(__dirname, './dist')));
