@@ -83,6 +83,8 @@ export default {
             border-radius: 4px;
             color: #ffffff;
             display: flex;
+            font-size: 18px;
+            font-weight: 600;
             height: 2rem;
             justify-content: center;
             text-transform: uppercase;
