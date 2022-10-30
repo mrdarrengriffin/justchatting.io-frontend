@@ -78,6 +78,15 @@
                     </RouterLink>
                 </div>
             </div>
+            <div class="sidebar__nav-group">
+                <div class="sidebar__nav-group__title">Fun</div>
+                <div class="sidebar__nav-group__nav">
+                    <RouterLink to="/wordle" class="nav-item">
+                        <i class="bi bi-pen nav-item__icon"></i>
+                        <span class="nav-item__label">Wordle</span>
+                    </RouterLink>
+                </div>
+            </div>
         </div>
         <div class="sidebar__collapse-toggle"><i class="bi bi-arrow-bar-left" @click="toggleCollapse()"></i></div>
     </div>
@@ -166,7 +175,6 @@ export default {
         display: flex;
         flex-direction: column;
         gap: 2rem;
-        position: sticky;
         top: 2rem;
         transition: gap .25s;
     }

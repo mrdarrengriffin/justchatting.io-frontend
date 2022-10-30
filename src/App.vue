@@ -24,7 +24,6 @@ const nouiRoutes = ['obs-overlay-chat'];
 <style lang="scss" scoped>
 .main {
 	display: flex;
-	overflow: hidden;
 	flex-grow: 1;
 
 	.router-wrapper {
