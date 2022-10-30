@@ -9,6 +9,7 @@ import AboutView from "../views/AboutView.vue";
 import BetterChatView from "../views/BetterChat.vue";
 import OBSChatOverlay from "../views/obs/overlays/Chat.vue";
 import SongRequestView from "../views/SongRequest.vue";
+import Wordle from "@/views/Wordle.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -53,6 +54,11 @@ const router = createRouter({
       path: "/obs/overlay/chat/:streamer",
       component: OBSChatOverlay,
       name: "obs-overlay-chat",
+    },
+    {
+      path: "/wordle",
+      component: Wordle,
+      name: "wordle",
     }
     
   ],
