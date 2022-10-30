@@ -83,7 +83,7 @@
                 <div class="sidebar__nav-group__nav">
                     <RouterLink to="/wordle" class="nav-item">
                         <i class="bi bi-pen nav-item__icon"></i>
-                        <span class="nav-item__label">Wordle</span>
+                        <span class="nav-item__label">Discord Wordle Games</span>
                     </RouterLink>
                 </div>
             </div>
